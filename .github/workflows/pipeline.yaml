@@ -1,0 +1,69 @@
+name: Azure DevOps GA Pipeline
+
+on:
+    push:
+        branches:   
+            - main
+    pull_request:
+        branches: 
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                dotnet-version: '10.0.1'
+
+            - name: Cache Dependencies
+              uses: actions/cache@v4
+              with: 
+                path: ~/.nuget/packages
+                key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+                restore-keys: |
+                    ${{ runner.os }}-nuget-
+
+            # - name: Cache SonarQube Cloud packages
+            #   uses: actions/cache@v4
+            #   with:
+            #     path: ~\sonar\cache
+            #     key: ${{ runner.os }}-sonar
+            #     restore-keys: ${{ runner.os }}-sonar
+
+            # - name: Cache SonarQube Cloud scanner
+            #   id: cache-sonar-scanner
+            #   uses: actions/cache@v4
+            #   with:
+            #     path: ${{ runner.temp }}\scanner
+            #     key: ${{ runner.os }}-sonar-scanner
+            #     restore-keys: ${{ runner.os }}-sonar-scanner
+
+            - name: Restore Dependencies
+              run: dotnet restore
+
+            - name: Compile App
+              run: dotnet build
+
+            - name: Integrated Test
+              run: dotnet tests
+
+            - name: Secret Scanning
+              uses: trufflesecurity/trufflehog@v3
+              with:
+                extra_args: --results=verified,unknown
+
+            - name: SonarQube Scan
+              uses: SonarSource/sonarqube-scan-action@v2
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+            - name: SonarQube Quality Gate check
+              id: sonarqube-quality-gate-check
+              uses: sonarsource/sonarqube-quality-gate-action@v1
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
