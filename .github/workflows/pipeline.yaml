@@ -48,7 +48,7 @@ jobs:
             #     restore-keys: ${{ runner.os }}-sonar-scanner
 
             - name: Restore Dependencies
-              run: dotnet restore
+              run: dotnet restore --packages ~/.nuget/packages
 
             - name: Compile App
               run: dotnet build
