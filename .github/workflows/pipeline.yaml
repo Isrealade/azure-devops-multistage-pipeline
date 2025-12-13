@@ -53,7 +53,7 @@ jobs:
               run: dotnet tests
 
             - name: Secret Scanning
-              uses: trufflesecurity/trufflehog@v3
+              uses: trufflesecurity/trufflehog@main
               with:
                 extra_args: --results=verified,unknown
 
