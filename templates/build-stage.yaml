@@ -1,0 +1,59 @@
+stages:
+- stage: Build
+  displayName: Build and Push Docker Image
+  jobs:
+  - job: Build
+    displayName: Restore, Build, Test and Docker Push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UseDotNet@2
+      displayName: Setup Dotnet Environment
+      inputs:
+        packageType: 'sdk'
+        version: '9.x'
+
+    - task: SonarCloudPrepare@4
+      inputs:
+        SonarCloud: SonarCloud
+        organization: isrealade
+        scannerMode: dotnet
+        projectKey: Isrealade_azure-devops-multistage-pipeline
+        projectName: azure-devops-multistage-pipeline
+    
+    - task: DotNetCoreCLI@2
+      displayName: Restore Dependencies
+      inputs:
+        command: restore
+        projects: 'azure-devops-multistage-pipeline.sln'
+    
+    - task: DotNetCoreCLI@2
+      displayName: Build Solution
+      inputs:
+        command: build
+        projects: 'azure-devops-multistage-pipeline.sln'
+        arguments: '--configuration Release'
+
+    - task: DotNetCoreCLI@2
+      displayName: Run Tests
+      inputs:
+        command: test
+        projects: 'azure-devops-multistage-pipeline.sln'
+        arguments: '--configuration Release'
+    
+    - task: SonarCloudAnalyze@4
+        inputs: {}
+    
+    - task: SonarCloudPublish@4
+      inputs:
+        pollingTimeoutSec: "300"
+        failOnQualityGate: true
+
+    - task: Docker@2
+      displayName: Build Docker Image
+      inputs:
+        containerRegistry: 'ACR-Service-Connection'
+        repository: $(ACR_NAME)/$(IMAGE_NAME)
+        command: buildAndPush
+        Dockerfile: '**/Dockerfile'
+        tags: $(IMAGE_TAG)

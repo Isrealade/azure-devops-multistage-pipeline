@@ -1,0 +1,33 @@
+stages:
+- stage: Test
+  displayName: Deploy to Test
+  dependsOn: Dev
+  condition: succeeded()
+  jobs:
+  - deployment: TestDeployment
+    displayName: Deploy to Test
+    environment: 'Test'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Kubernetes@1
+            displayName: Deploy to AKS (Test)
+            inputs:
+              connectionType: 'Azure Resource Manager'
+              azureSubscription: 'AKS-Service-Connection'
+              azureResourceGroup: $(AKS_RESOURCE_GROUP)
+              kubernetesCluster: $(AKS_CLUSTER)
+              namespace: test
+              command: apply
+              useConfigurationFile: true
+              configuration: |
+                manifests/test/deployment.yaml
+                manifests/test/service.yaml
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              dockerRegistryEndpoint: 'ACR-Service-Connection'
+              images: |
+                $(ACR_NAME)/$(IMAGE_NAME):$(IMAGE_TAG)

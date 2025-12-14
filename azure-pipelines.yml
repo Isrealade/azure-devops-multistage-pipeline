@@ -1,0 +1,38 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+      - release/*
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+
+
+variables:
+
+# Azure Container Registry & AKS information
+- group: blazor-vars
+
+# Generate dynamic image tag using branch name + build ID
+- name: IMAGE_TAG
+  value: $(Build.SourceBranchName)-$(Build.BuildId)
+
+stages:
+# Build Stage
+- template: templates/build-stage.yaml
+
+# -----------------------------
+# Deploy to Dev Stage
+- template: templates/release-dev.yaml
+
+# -----------------------------
+# Deploy to Test Stage
+- template: templates/release-test.yaml
+
+# -----------------------------
+# Deploy to Prod Stage
+- template: templates/release-prod.yaml

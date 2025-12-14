@@ -1,0 +1,33 @@
+stages:
+- stage: Prod
+  displayName: Deploy to Prod
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - deployment: ProdDeployment
+    displayName: Deploy to Prod
+    environment: 'Prod'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Kubernetes@1
+            displayName: Deploy to AKS (Prod)
+            inputs:
+              connectionType: 'Azure Resource Manager'
+              azureSubscription: 'AKS-Service-Connection'
+              azureResourceGroup: $(AKS_RESOURCE_GROUP)
+              kubernetesCluster: $(AKS_CLUSTER)
+              namespace: prod
+              command: apply
+              useConfigurationFile: true
+              configuration: |
+                manifests/prod/deployment.yaml
+                manifests/prod/service.yaml
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              dockerRegistryEndpoint: 'ACR-Service-Connection'
+              images: |
+                $(ACR_NAME)/$(IMAGE_NAME):$(IMAGE_TAG)
