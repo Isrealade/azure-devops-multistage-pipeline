@@ -31,9 +31,7 @@ stages:
               namespace: prod
               command: apply
               useConfigurationFile: true
-              configuration: |
-                manifests/prod/deploy.yaml
-                manifests/prod/service.yaml
+              configuration: manifests/prod
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
               dockerRegistryEndpoint: 'ACR-Service-Connection'

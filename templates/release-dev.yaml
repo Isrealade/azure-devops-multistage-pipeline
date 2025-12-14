@@ -36,9 +36,7 @@ stages:
               namespace: dev
               command: apply
               useConfigurationFile: true
-              configuration: |
-                manifests/dev/deploy.yaml
-                manifests/dev/service.yaml
+              configuration: manifests/dev
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
               dockerRegistryEndpoint: 'ACR-Service-Connection'
