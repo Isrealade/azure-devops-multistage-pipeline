@@ -11,6 +11,16 @@ stages:
       runOnce:
         deploy:
           steps:
+          - script: |
+              echo "Listing files in manifest folder"
+              ls -l $(Build.SourcesDirectory)/manifests/dev
+            displayName: Verify manifest files
+
+          - script: |
+              echo "Fixing ownership for manifest files"
+              chown -R azureuser:azureuser $(Build.SourcesDirectory)/manifests/dev
+            displayName: Fix manifest file ownership
+            
           - task: Kubernetes@1
             displayName: Deploy to AKS (Test)
             inputs:
