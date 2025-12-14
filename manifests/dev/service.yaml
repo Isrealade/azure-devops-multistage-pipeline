@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blazerapp-svc
+  name: blazorapp-svc
   namespace: dev
 spec:
   selector:
-    app: blazerapp
+    app: blazorapp
   type: NodePort
   sessionAffinity: None
   sessionAffinityConfig:

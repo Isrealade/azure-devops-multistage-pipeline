@@ -23,7 +23,7 @@ stages:
 
           - script: |
               echo "Replacing image tag for environment: $(EnvironmentName)"
-              sed -i "s|image: blazorappacr.azurecr.io/blazer|image: blazorappacr.azurecr.io/blazer:$(IMAGE_TAG)|g" manifests/test/deploy.yaml
+              sed -i "s|image: blazorappacr.azurecr.io/blazor|image: blazorappacr.azurecr.io/blazor:$(IMAGE_TAG)|g" manifests/test/deploy.yaml
             displayName: Replace image tag
 
           - task: Kubernetes@1

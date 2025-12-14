@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  blazerapp
+  name:  blazorapp
   namespace: prod
   labels:
-    app:  blazerapp
+    app:  blazorapp
 spec:
   selector:
     matchLabels:
-      app: blazerapp
+      app: blazorapp
   replicas: 2
   strategy:
     rollingUpdate:
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app:  blazerapp
+        app:  blazorapp
     spec:
       containers:
-      - name:  blazerapp
-        image: blazorappacr.azurecr.io/blazer
+      - name:  blazorapp
+        image: blazorappacr.azurecr.io/blazor
         resources:
           requests:
             cpu: 100m
