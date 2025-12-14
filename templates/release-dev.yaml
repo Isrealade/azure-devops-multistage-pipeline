@@ -20,6 +20,12 @@ stages:
               chown -R azureuser:azureuser $(Build.SourcesDirectory)/manifests/dev
             displayName: Fix manifest file ownership
 
+          - script: |
+              echo "Debug: listing files with hidden characters and current user"
+              whoami
+              ls -lb $(Build.SourcesDirectory)/manifests/dev
+            displayName: Debug manifest folder
+
           - task: Kubernetes@1
             displayName: Deploy to AKS (Dev)
             inputs:
@@ -30,7 +36,7 @@ stages:
               namespace: dev
               command: apply
               useConfigurationFile: true
-              workingDirectory: $(Build.SourcesDirectory)/manifests/dev
+              workingDirectory: '$(Build.SourcesDirectory)/manifests/dev'
               configuration: |
                 deployment.yaml
                 service.yaml

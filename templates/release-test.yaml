@@ -31,7 +31,7 @@ stages:
               namespace: test
               command: apply
               useConfigurationFile: true
-              workingDirectory: $(Build.SourcesDirectory)/manifests/test
+              workingDirectory: '$(Build.SourcesDirectory)/manifests/test'
               configuration: |
                 deployment.yaml
                 service.yaml
