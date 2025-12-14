@@ -15,7 +15,7 @@ stages:
             displayName: Deploy to AKS (Test)
             inputs:
               connectionType: 'Azure Resource Manager'
-              azureSubscription: 'AKS-Service-Connection'
+              azureSubscriptionEndpoint: 'AKS-Service-Connection'
               azureResourceGroup: $(AKS_RESOURCE_GROUP)
               kubernetesCluster: $(AKS_CLUSTER)
               namespace: test
