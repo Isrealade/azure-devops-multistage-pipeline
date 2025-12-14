@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: blazerApp
-  replicas: 3
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app:  MYAPP
+        app: blazerApp
     spec:
       containers:
       - name:  blazerApp
-        image:  MYAPP:latest
+        image: blazeracr.azurecr.io/blazer
         resources:
           requests:
             cpu: 100m
