@@ -4,8 +4,6 @@ stages:
   jobs:
   - job: Build
     displayName: Restore, Build, Test and Docker Push
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     - task: UseDotNet@2
       displayName: Setup Dotnet Environment

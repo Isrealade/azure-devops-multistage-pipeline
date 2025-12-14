@@ -7,8 +7,6 @@ stages:
   - deployment: TestDeployment
     displayName: Deploy to Test
     environment: 'Test'
-    pool:
-      vmImage: 'ubuntu-latest'
     strategy:
       runOnce:
         deploy:

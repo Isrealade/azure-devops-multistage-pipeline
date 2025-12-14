@@ -11,6 +11,8 @@ pr:
       - main
       - develop
 
+pool: 
+  name: blazorscaleagentpool
 
 variables:
 

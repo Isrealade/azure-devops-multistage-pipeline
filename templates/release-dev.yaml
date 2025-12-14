@@ -6,8 +6,6 @@ stages:
   - deployment: DevDeployment
     displayName: Deploy to Dev
     environment: 'Dev'
-    pool:
-      vmImage: 'ubuntu-latest'
     strategy:
       runOnce:
         deploy:

@@ -7,8 +7,6 @@ stages:
   - deployment: ProdDeployment
     displayName: Deploy to Prod
     environment: 'Prod'
-    pool:
-      vmImage: 'ubuntu-latest'
     strategy:
       runOnce:
         deploy:
