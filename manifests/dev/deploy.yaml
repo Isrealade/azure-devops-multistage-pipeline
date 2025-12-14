@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name:  blazerapp
-        image: blazeracr.azurecr.io/blazer
+        image: blazorappacr.azurecr.io/blazer
         resources:
           requests:
             cpu: 100m
