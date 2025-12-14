@@ -23,7 +23,7 @@ WORKDIR /app
 # Copy the published output from the build stage
 COPY --from=build /app/publish .
 
-# Expose port 80
+# Expose port 8080
 EXPOSE 8080
 
 # Set the entrypoint

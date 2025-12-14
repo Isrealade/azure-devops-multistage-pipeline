@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blazerApp-svc
+  name: blazerapp-svc
   namespace: prod
 spec:
   selector:
-    app: blazerApp
+    app: blazerapp
   type: NodePort
   sessionAffinity: None
   sessionAffinityConfig:
@@ -14,5 +14,5 @@ spec:
   ports:
   - name: http
     protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 8080
+    targetPort: 8080

@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  blazerApp
+  name:  blazerapp
   namespace: prod
   labels:
-    app:  blazerApp
+    app:  blazerapp
 spec:
   selector:
     matchLabels:
-      app: blazerApp
+      app: blazerapp
   replicas: 2
   strategy:
     rollingUpdate:
@@ -18,10 +18,10 @@ spec:
   template:
     metadata:
       labels:
-        app:  MYAPP
+        app:  blazerapp
     spec:
       containers:
-      - name:  blazerApp
+      - name:  blazerapp
         image: blazeracr.azurecr.io/blazer
         resources:
           requests:
@@ -31,6 +31,6 @@ spec:
             cpu: 100m
             memory: 100Mi
         ports:
-        - containerPort:  80
+        - containerPort:  8080
           name:  http
       restartPolicy: Always
