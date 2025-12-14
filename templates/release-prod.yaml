@@ -20,7 +20,7 @@ stages:
               echo "Fixing ownership for manifest files"
               chown -R azureuser:azureuser $(Build.SourcesDirectory)/manifests/dev
             displayName: Fix manifest file ownership
-            
+
           - task: Kubernetes@1
             displayName: Deploy to AKS (Prod)
             inputs:
@@ -31,9 +31,10 @@ stages:
               namespace: prod
               command: apply
               useConfigurationFile: true
+              workingDirectory: $(Build.SourcesDirectory)/manifests/prod
               configuration: |
-                $(Build.SourcesDirectory)/manifests/prod/deployment.yaml
-                $(Build.SourcesDirectory)/manifests/prod/service.yaml
+                deployment.yaml
+                service.yaml
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
               dockerRegistryEndpoint: 'ACR-Service-Connection'
