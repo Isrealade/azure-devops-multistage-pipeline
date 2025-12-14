@@ -51,7 +51,7 @@ stages:
       displayName: Build Docker Image
       inputs:
         containerRegistry: 'ACR-Service-Connection'
-        repository: $(ACR_NAME)/$(IMAGE_NAME)
+        repository: blazor
         command: buildAndPush
         Dockerfile: '**/Dockerfile'
         tags: $(IMAGE_TAG)
