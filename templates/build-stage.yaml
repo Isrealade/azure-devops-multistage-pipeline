@@ -42,7 +42,7 @@ stages:
         arguments: '--configuration Release'
     
     - task: SonarCloudAnalyze@4
-        inputs: {}
+      inputs: {}
     
     - task: SonarCloudPublish@4
       inputs:
