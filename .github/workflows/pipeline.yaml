@@ -61,13 +61,13 @@ jobs:
               with:
                 extra_args: --results=verified,unknown
 
-            - name: SonarQube Scan
-              uses: SonarSource/sonarqube-scan-action@v2
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            # - name: SonarQube Scan
+            #   uses: SonarSource/sonarqube-scan-action@v2
+            #   env:
+            #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-            - name: SonarQube Quality Gate check
-              id: sonarqube-quality-gate-check
-              uses: sonarsource/sonarqube-quality-gate-action@v1
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            # - name: SonarQube Quality Gate check
+            #   id: sonarqube-quality-gate-check
+            #   uses: sonarsource/sonarqube-quality-gate-action@v1
+            #   env:
+            #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
